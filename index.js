@@ -56,6 +56,6 @@ io.on('connection', (socket) => {
     })
 });
 
-http.listen(4000, () => {
+http.listen('https://lovewav.herokuapp.com/', () => {
     console.log('listening on 4000')
 })
