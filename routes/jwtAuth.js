@@ -32,7 +32,7 @@ router.post('/register', validInfo, async (req, res) => {
 router.post('/login', validInfo, async (req, res) => {
     try {
         const {email, password} = req.body;
-        //console.log(email + password)
+        console.log(email + password)
         const user = await pool.query('select * from user_account where email = $1', [email]);
         if(user.rows.length === 0){
             res.status(400).send("We don't have a user registered with that email");
