@@ -10,6 +10,8 @@ const fetchProfilesRouter = require('./routes/fetchProfiles')
 const swipesRouter = require('./routes/swipes');
 const conversationsRouter = require('./routes/conversations')
 
+const PORT = process.env.PORT || 4000;
+
 const app = express();
 
 //middleware
@@ -25,6 +27,11 @@ app.use('/lyrics', lyricsRouter);
 app.use('/fetch-profiles', fetchProfilesRouter);
 app.use('/swipes', swipesRouter);
 app.use('/conversations', conversationsRouter);
+
+app.get('/', (req, res) => {
+  console.log('welcome!')
+  res.send('yo!')
+})
 
 //socket.io 
 const http = require('http').Server(app);
@@ -56,6 +63,6 @@ io.on('connection', (socket) => {
     })
 });
 
-http.listen('https://lovewav.herokuapp.com/', () => {
-    console.log('listening on 4000')
+http.listen(PORT, () => {
+    console.log('listening on ' + PORT)
 })
