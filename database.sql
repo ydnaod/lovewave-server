@@ -11,7 +11,7 @@ create table user_account
 create table user_profile
 (
     id serial primary key,
-    first_name varchar(128) REFERENCES user_account(first_name) NOT NULL,
+    first_name varchar(128) NOT NULL,
     user_account_id int references user_account(id) UNIQUE NOT NULL,
     playlist_id varchar(128) NOT NULL,
     photo text NOT NULL,
