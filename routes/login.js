@@ -12,7 +12,7 @@ const authorization = require('../middleware/authorization')
 
 const client_id = process.env.clientId;
 const client_secret = process.env.clientSecret;
-let redirect_uri = 'http://localhost:4000/login/callback/';
+let redirect_uri = 'https://lovewav.herokuapp.com/login/callback/';
 let userToken;
 let accessToken;
 let expiresIn;
@@ -55,7 +55,7 @@ const authorize = async (req, res, next) => {
     }*/
     const id = req.user;
     //console.log(req.user);
-    const refresh = await fetch(`http://localhost:4000/login/refresh_token/${id}`, {
+    const refresh = await fetch(`https://lovewav.herokuapp.com/login/refresh_token/${id}`, {
         method: "GET",
         headers: { token: req.header('token') }
     });
