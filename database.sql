@@ -13,9 +13,9 @@ create table user_profile
     id serial primary key,
     first_name varchar(128) NOT NULL,
     user_account_id int references user_account(id) UNIQUE NOT NULL,
-    playlist_id varchar(128) NOT NULL,
-    photo text NOT NULL,
-    theme_song_id varchar(128) not null
+    playlist_id varchar(128),
+    photo text,
+    theme_song_id varchar(128) 
 );
 
 create table lyrics_slide

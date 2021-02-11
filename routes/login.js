@@ -272,7 +272,7 @@ router.get('/callback', async function (req, res, next) {
                 res.access_token = access_token;
                 res.refresh_token = refresh_token;
                 res.expires_in = 3600;
-                res.redirect('http://lovewav.io/#' +
+                res.redirect('https://lovewav.io/#' +
                     querystring.stringify({
                         access_token: access_token,
                         refresh_token: refresh_token
