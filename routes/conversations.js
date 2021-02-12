@@ -21,8 +21,10 @@ router.get('/last-message/:id/', async (req, res) => {
         console.log('fetch last message happens from route')
         const query = await pool.query('select message from message where conversation_id = $1 and ts = (select max(ts) from message where conversation_id = $1);', [req.params.id]);
         console.log(query.rows);
-        if(!query.rows){
+        if(query.rows.length == 0){
             query.rows[0]='';
+            console.log(query.rows[0])
+            query.rows.push('');
             console.log(query.rows[0])
         }
         res.json(query.rows[0])
