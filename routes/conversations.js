@@ -23,6 +23,7 @@ router.get('/last-message/:id/', async (req, res) => {
         console.log(query.rows);
         if(!query.rows){
             query.rows[0]='';
+            console.log(query.rows[0])
         }
         res.json(query.rows[0])
     } catch (error) {
