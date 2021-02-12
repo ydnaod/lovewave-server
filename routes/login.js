@@ -175,6 +175,7 @@ router.get('/search-tracks/:term', authorize, async (req, res) => {
 //get profile picture from spotify
 router.get('/profile-picture', authorize, async (req, res) => {
     try {
+        res.header("Access-Control-Allow-Origin", "*");
         const response = await fetch('https://api.spotify.com/v1/me', {
             method: 'GET',
             json: true,
