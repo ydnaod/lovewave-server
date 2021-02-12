@@ -181,8 +181,10 @@ router.get('/profile-picture', authorize, async (req, res) => {
             json: true,
             headers: {'Authorization':'Bearer ' + res.access_token}
         })
+        console.log(await response)
         const parseRes = await response.json();
-        //console.log(parseRes.images[0].url);
+        console.log(await parseRes)
+        console.log(await parseRes.images[0].url);
         const query = await pool.query('update user_profile set photo = $1 where user_account_id = $2 returning *', [parseRes.images[0].url, req.user]);
         console.log(query)
         res.json(parseRes.images[0].url);
