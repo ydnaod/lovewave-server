@@ -175,15 +175,17 @@ router.get('/search-tracks/:term', authorize, async (req, res) => {
 //get profile picture from spotify
 router.get('/profile-picture', authorize, async (req, res) => {
     try {
-        res.header("Access-Control-Allow-Origin", "*");
         const response = await fetch('https://api.spotify.com/v1/me', {
             method: 'GET',
             json: true,
             headers: {'Authorization':'Bearer ' + res.access_token}
         })
-        console.log(await response)
+        //console.log(await response)
         const parseRes = await response.json();
-        console.log(await parseRes)
+        //console.log(await parseRes)
+        if(parseRes.images.length == 0){
+            res.status(404).json(`You don't have a picture uploaded to Spotify! Upload one through your desktop app and try again`)
+        }
         console.log(await parseRes.images[0].url);
         const query = await pool.query('update user_profile set photo = $1 where user_account_id = $2 returning *', [parseRes.images[0].url, req.user]);
         console.log(query)
