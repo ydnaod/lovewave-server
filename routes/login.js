@@ -88,6 +88,9 @@ router.get('/loadPlaylists', authorize, async (req, res) => {
         })
         const parseResponseTwo = await responseTwo.json();
         console.log(parseResponseTwo)
+        if(parseResponseTwo.items.length === 0){
+            res.status(404).json(`It looks like you don't have any public playlists - create some on Spotify then try again`)
+        }
         res.json(parseResponseTwo)
     } catch (error) {
         console.error(error.message)
