@@ -9,10 +9,26 @@ router.use(authorization);
 
 router.post('/', async (req, res) => {
     try {
-        const {user_account_id, other_user_account_id, swiped} = req.body;
+        const {user_account_id, other_user_account_id, swiped, guess} = req.body;
         //console.log(req.body);
-        const query = await pool.query('insert into swipes (user_account_id, other_user_account_id, swiped) values ($1, $2, $3)', [user_account_id, other_user_account_id, swiped]);
+        const query = await pool.query('insert into swipes (user_account_id, other_user_account_id, swiped, guess) values ($1, $2, $3, $4)', [user_account_id, other_user_account_id, swiped, guess]);
         //console.log(query.rows)
+        //check to see if guess was correct
+        query.guess = null;
+        let favoriteLyric;
+        let guessMessage;
+        if(guess){
+            favoriteLyric = await pool.query('select * from lyrics_slide where user_account_id = $1', [other_user_account_id]);
+            console.log(favoriteLyric);
+            if(guess === favoriteLyric.rows[4]){
+                query.guess = true;
+                guessMessage = 'This person guessed your favorite lyric correctly!'
+            }
+            else{
+                query.guess = false;
+                guessMessage = 'This person guessed your favorite lyric incorrectly'
+            }
+        }
         //check to see if there is a match
         const theirSwipe = await pool.query('select swiped from swipes where user_account_id = $1 and other_user_account_id = $2', [other_user_account_id, user_account_id]);
         //console.log(theirSwipe.rows);
@@ -21,8 +37,11 @@ router.post('/', async (req, res) => {
         }
         else if(theirSwipe.rows[0].swiped === swiped){
             query.match = true;
-            const createConvo = await pool.query('insert into conversation (user_account_id, other_user_account_id) values ($1, $2)', [other_user_account_id, user_account_id]);
+            const createConvo = await pool.query('insert into conversation (user_account_id, other_user_account_id) values ($1, $2) returning *', [other_user_account_id, user_account_id]);
             console.log(createConvo);
+            if(query.guess === true){
+                const query = pool.query('insert into message (user_account_id, conversation_id, message) values ($1, $2, $3)', [999, createConvo.rows[0], guessMessage]);
+            }
         }
         else{
             query.match = false;
