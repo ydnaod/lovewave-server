@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         let guessMessage;
         if(guess){
             favoriteLyric = await pool.query('select * from lyrics_slide where user_account_id = $1', [other_user_account_id]);
-            console.log(favoriteLyric);
+            //console.log(favoriteLyric);
             if(guess == favoriteLyric.rows[0].favorite_lyric){
                 query.guess = true;
                 guessMessage = 'This person guessed your favorite lyric correctly!'
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
         else if(theirSwipe.rows[0].swiped === swiped){
             query.match = true;
             const createConvo = await pool.query('insert into conversation (user_account_id, other_user_account_id) values ($1, $2) returning *', [other_user_account_id, user_account_id]);
-            console.log(createConvo);
+            //console.log(createConvo);
             if(query.guess === true){
                 const query = pool.query('insert into message (user_account_id, conversation_id, message) values ($1, $2, $3)', [999, createConvo.rows[0].id, guessMessage]);
             }
