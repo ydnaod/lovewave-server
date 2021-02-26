@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     try {
         const {user_account_id, other_user_account_id, swiped, guess} = req.body;
         //console.log(req.body);
-        const query = await pool.query('insert into swipes (user_account_id, other_user_account_id, swiped, guess) values ($1, $2, $3, $4)', [user_account_id, other_user_account_id, swiped, guess]);
+        const query = await pool.query('insert into swipes (user_account_id, other_user_account_id, swiped, favorite_lyric_guess) values ($1, $2, $3, $4)', [user_account_id, other_user_account_id, swiped, guess]);
         //console.log(query.rows)
         //check to see if guess was correct
         query.guess = null;
