@@ -20,13 +20,15 @@ router.post('/', async (req, res) => {
         if(guess){
             favoriteLyric = await pool.query('select * from lyrics_slide where user_account_id = $1', [other_user_account_id]);
             //console.log(favoriteLyric);
+            const theirName = await pool.query('select first_name from user_account where id = $1', [other_user_account_id]);
+            const yourName = await pool.query('select first_name from user_account where id = $1', [user_account_id]);
             if(guess == favoriteLyric.rows[0].favorite_lyric){
                 query.guess = true;
-                guessMessage = 'This person guessed your favorite lyric correctly!'
+                guessMessage = `${theirName} guessed ${yourName}'s favorite lyric correctly!`
             }
             else{
                 query.guess = false;
-                guessMessage = 'This person guessed your favorite lyric incorrectly'
+                guessMessage = `${theirName} guessed ${yourName}'s favorite lyric incorrectly!`
             }
         }
         //check to see if there is a match
