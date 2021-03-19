@@ -22,9 +22,10 @@ router.post('/', async (req, res) => {
             //console.log(favoriteLyric);
             const theirName = await pool.query('select first_name from user_account where id = $1', [other_user_account_id]);
             const yourName = await pool.query('select first_name from user_account where id = $1', [user_account_id]);
+            console.log(theirName)
             if(guess == favoriteLyric.rows[0].favorite_lyric){
                 query.guess = true;
-                guessMessage = `${theirName.rows[0]} guessed ${yourName.rows[0]}'s favorite lyric correctly!`
+                guessMessage = `${theirName.rows[0].first_name} guessed ${yourName.rows[0].first_name}'s favorite lyric correctly!`
             }
             else{
                 query.guess = false;
